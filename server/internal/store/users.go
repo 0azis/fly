@@ -8,7 +8,7 @@ import (
 
 type UserService interface {
 	InsertOne(user models.User) (int, error)
-	GetByNick(nick string) (models.User, error)
+	GetByLogin(login string) (models.User, error)
 }
 
 type user struct {
@@ -18,15 +18,15 @@ type user struct {
 func (u *user) InsertOne(user models.User) (int, error) {
 	var newUserID int
 
-	err := u.db.Get(&newUserID, fmt.Sprintf("insert into chat_users (nick, password) values ('%s', '%s') RETURNING userid", user.Nick, user.Password))
+	err := u.db.Get(&newUserID, fmt.Sprintf("insert into chat_users (nick, email, password) values ('%s', '%s', '%s') RETURNING userid", user.Nick, user.Email, user.Password))
 
 	return newUserID, err
 }
 
-func (u *user) GetByNick(nick string) (models.User, error) {
+func (u *user) GetByLogin(login string) (models.User, error) {
 	var resultUser models.User
 
-	err := u.db.Get(&resultUser, fmt.Sprintf("select * from chat_users where nick = '%s'", nick))
+	err := u.db.Get(&resultUser, fmt.Sprintf("select * from chat_users where nick = '%s' or email = '%s'", login, login))
 
 	return resultUser, err
 }

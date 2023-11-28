@@ -4,7 +4,6 @@ import (
 	"chat/internal/models"
 	"chat/internal/store"
 	"chat/pkg"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +12,7 @@ type AuthControllers struct {
 }
 
 func (a AuthControllers) SignUp(c *gin.Context) {
-	var credentials models.Credentials
+	var credentials models.SignUpCredentials
 
 	if err := c.BindJSON(&credentials); err != nil {
 		c.JSON(500, "Плохая форма")
@@ -28,6 +27,7 @@ func (a AuthControllers) SignUp(c *gin.Context) {
 
 	newUser := models.User{
 		Nick:     credentials.Nick,
+		Email: credentials.Email,
 		Password: string(hashedPassword),
 	}
 
@@ -50,16 +50,15 @@ func (a AuthControllers) SignUp(c *gin.Context) {
 }
 
 func (a AuthControllers) SignIn(c *gin.Context) {
-	var credentials models.Credentials
+	var credentials models.SignInCredentials
 
 	if err := c.BindJSON(&credentials); err != nil {
 		c.JSON(500, "Плохая форма")
 		return
 	}
 
-	authUser, err := a.Store.Users().GetByNick(credentials.Nick)
+	authUser, err := a.Store.Users().GetByLogin(credentials.Login)
 	if err != nil {
-		fmt.Println(err)
 		c.JSON(500, "Ошибка при чтении данных")
 		return
 	}

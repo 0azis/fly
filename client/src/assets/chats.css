@@ -1,0 +1,34 @@
+.chats {
+    display: flex;
+}
+
+.left {
+    width: 400px;
+    height: 100vh;
+    border-right: 1px solid #E7E7E7;
+    padding: 30px;
+}
+
+
+.top_label {
+    dislpay: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.top_label_text {
+    font-size: 40px;
+    margin-left: 10px;
+    color: #3B185F;
+
+}
+
+.search_input {
+    margin-top: 20px;
+    width: 360px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #EEEEEE;
+    font-family: "Manrope";
+    border-radius: 5px;
+}
