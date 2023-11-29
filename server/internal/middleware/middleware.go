@@ -11,7 +11,7 @@ func Middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		if c.Request.Header["Authorization"][0] == "Bearer" {
-			c.AbortWithStatusJSON(401, "HELLO")
+			c.AbortWithStatusJSON(401, "Bad token")
 			return
 		}
 

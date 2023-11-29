@@ -24,3 +24,4 @@ func (m message) DeleteOne(msgID int) error {
 	_, err := m.db.Query(fmt.Sprintf("delete from messages where messageid = %d", msgID))
 	return err
 }
+

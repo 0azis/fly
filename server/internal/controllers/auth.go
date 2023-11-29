@@ -63,6 +63,7 @@ func (a AuthControllers) SignIn(c *gin.Context) {
 		return
 	}
 
+
 	if err = pkg.Decode([]byte(authUser.Password), []byte(credentials.Password)); err != nil {
 		c.JSON(409, "Неправильные данные пользователя")
 		return

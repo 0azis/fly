@@ -26,9 +26,9 @@ func (cc ChatsControllers) Create(c *gin.Context) {
 	userToken := strings.SplitN(c.Request.Header["Authorization"][0], " ", 2)[1]
 	ID, _, _ := pkg.GetIdentity(userToken)
 
-	myChats, err := cc.Store.Chats().GetMyChats(ID)
+	myChats, _ := cc.Store.Chats().GetMyChats(ID)
 	for i := range myChats {
-		if myChats[i].UserOne == friend.ID || myChats[i].UserTwo == friend.ID {
+		if myChats[i].Companion == friend.ID {
 			c.JSON(403, "Такой чат уже есть")
 			return
 		}
@@ -40,7 +40,7 @@ func (cc ChatsControllers) Create(c *gin.Context) {
 		UserTwo: friend.ID,
 	}
 
-	err = cc.Store.Chats().InsertOne(chatInfo)
+	err := cc.Store.Chats().InsertOne(chatInfo)
 	if err != nil {
 		c.JSON(500, "Ошибка при создании чата")
 		return
@@ -66,10 +66,10 @@ func (cc ChatsControllers) MyChats(c *gin.Context) {
 
 	myChats, err := cc.Store.Chats().GetMyChats(ID)
 	if err != nil {
-		c.JSON(500, "Ошибка при ототбражении чатов")
+		c.JSON(500, "Bad")
 		return
 	}
-
+	
 	c.JSON(200, myChats)
 }
 

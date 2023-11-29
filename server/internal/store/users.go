@@ -30,3 +30,11 @@ func (u *user) GetByLogin(login string) (models.User, error) {
 
 	return resultUser, err
 }
+
+func (u *user) GetNameByID(userID int) (string, error) {
+	var resultUser models.User
+
+	err := u.db.Get(&resultUser, fmt.Sprintf("select * from chat_users where userid = %d", userID))
+
+	return resultUser.Nick, err
+}
